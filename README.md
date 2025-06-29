@@ -9,27 +9,10 @@ Instant Calculation – As soon as you change the values, the program:
 
 Converts height from cm to meters.
 
-Calculates your BMI using the formula:
-
-BMI
-=
-weight in kg
-(
-height in meters
-)
-2
-BMI= 
-(height in meters) 
-2
- 
-weight in kg
-​
- 
-Shows your BMI – The result like "24.22 kg/m²" appears.
-
 Gives Health Tip – It gives a message explaining what the BMI means and suggests you talk to a doctor.
 
 📦 What’s Inside the App?
+
 Weight & Height Sliders: You can adjust them easily.
 
 Live Value Display: It shows your current selection.
