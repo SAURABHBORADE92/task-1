@@ -1,28 +1,65 @@
-def calculate_bmi(weight, height):
-    bmi = weight / (height ** 2)
-    return bmi
+import tkinter as tk
+from tkinter import ttk
+from math import pow
 
-def get_bmi_category(bmi):
-    if bmi < 18.5:
-        return "Underweight"
-    elif bmi < 25:
-        return "Normal"
-    elif bmi < 30:
-        return "Overweight"
-    else:
-        return "Obese"
+def calculate_bmi(*args):
+    try:
+        weight = weight_var.get()
+        height_cm = height_var.get()
+        height_m = height_cm / 100
+        bmi = weight / pow(height_m, 2)
+        bmi_result.set(f"{bmi:.2f} kg/m²")
+        health_tip.set("Your BMI result can help you understand your health better.\n"
+                       "Discuss your BMI with a healthcare provider for personalized advice.")
+    except:
+        bmi_result.set("Error")
+        health_tip.set("Invalid input")
 
-def main():
-    print("BMI Calculator")
-    weight = float(input("Enter your weight in kg: "))
-    height = float(input("Enter your height in meters: "))
-    age = int(input("Enter your age: "))
+root = tk.Tk()
+root.title("BMI Calculator")
+root.geometry("500x300")
+root.configure(bg="#f2f4f8")
 
-    bmi = calculate_bmi(weight, height)
-    category = get_bmi_category(bmi)
+weight_var = tk.DoubleVar(value=70)
+height_var = tk.DoubleVar(value=170)
+bmi_result = tk.StringVar()
+health_tip = tk.StringVar()
 
-    print(f"Your BMI is: {bmi:.2f}")
-    print(f"Your BMI category is: {category}")
+title = ttk.Label(root, text="BMI Calculator", font=("Helvetica", 16, "bold"))
+title.pack(pady=10)
 
-if __name__ == "__main__":
-    main()
+frame = ttk.Frame(root)
+frame.pack(pady=10)
+
+ttk.Label(frame, text="Weight (kg)").grid(row=0, column=0, padx=5, sticky="w")
+weight_slider = ttk.Scale(frame, from_=30, to=200, variable=weight_var, orient="horizontal", command=calculate_bmi)
+weight_slider.grid(row=0, column=1, padx=5)
+weight_entry = ttk.Label(frame, textvariable=weight_var)
+weight_entry.grid(row=0, column=2, padx=5)
+
+ttk.Label(frame, text="Height (cm)").grid(row=1, column=0, padx=5, sticky="w")
+height_slider = ttk.Scale(frame, from_=100, to=250, variable=height_var, orient="horizontal", command=calculate_bmi)
+height_slider.grid(row=1, column=1, padx=5)
+height_entry = ttk.Label(frame, textvariable=height_var)
+height_entry.grid(row=1, column=2, padx=5)
+
+result_frame = tk.Frame(root, bg="#1e90ff", bd=2, relief="ridge")
+result_frame.pack(pady=15, fill="x", padx=40)
+
+bmi_label = tk.Label(result_frame, text="BMI", font=("Helvetica", 12, "bold"), fg="white", bg="#1e90ff")
+bmi_label.pack(anchor="w", padx=10, pady=5)
+
+bmi_value = tk.Label(result_frame, textvariable=bmi_result, font=("Helvetica", 16, "bold"), fg="white", bg="#1e90ff")
+bmi_value.pack(anchor="w", padx=10)
+
+tip_label = tk.Label(result_frame, text="Understand Your Health Better", font=("Helvetica", 10, "bold"), fg="white", bg="#1e90ff")
+tip_label.pack(anchor="w", padx=10, pady=5)
+
+tip_text = tk.Label(result_frame, textvariable=health_tip, wraplength=400, justify="left", fg="white", bg="#1e90ff")
+tip_text.pack(anchor="w", padx=10)
+
+btn = ttk.Button(root, text="Get Health Tips", command=calculate_bmi)
+btn.pack()
+
+calculate_bmi()
+root.mainloop()
